@@ -1,0 +1,10 @@
+import { App } from './app';
+
+function main() {
+  const PORT = Number(process.env.PORT) || 3000;
+  const server = new App(PORT);
+
+  server.listen();
+}
+
+main();
