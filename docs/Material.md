@@ -1,0 +1,82 @@
+# Material
+
+1. **Add Material**: ```POST /materials```
+    - Request
+      ```json
+      {
+        "class_id": "class_id",
+        "title": "Materi AlJabar",
+        "content": "Aljabar adalah ..."
+      }
+      ```
+    - Response
+      - Status Code: 201
+        ```json
+        {
+          "message": "successfully added the material"
+        }
+        ```
+      - Status Code: 400
+        ```json
+        {
+          "messages": {
+            "class_id": "class id is required",
+            "title": "title is required",
+            "content": "content is required"
+          }
+        }
+        ```
+      - Status Code: 404
+        ```json
+        {
+          "message": "class not found"
+        }
+        ```
+
+2. **Get Materials**: ```GET /materials/{class_id}```
+    - Response
+      - Status Code: 200
+        ```json
+        {
+          "data": {
+            "materials": [
+              {
+                "id": "material-id",
+                "title": "Materi AlJabar",
+                "author": "ardi123",
+                "created_at": "Senin, 20 Agustus 2025"
+              }
+            ]
+          }
+        }
+        ```
+      - Status Code: 404
+        ```json
+        {
+          "message": "class not found"
+        }
+        ```
+      
+3. **Get Material**: ```GET /materials/{material_id}```
+    - Response
+      - Status Code: 200
+        ```json
+        {
+          "data": {
+            "material_id": "material-id",
+            "questions": [
+              {
+                "id": "question-id",
+                "question_text": "Apa itu aljabar?",
+                "options": ["A", "B", "C", "D"],
+              }
+            ]
+          }
+        }
+        ```
+      - Status Code: 404
+        ```json
+        {
+          "message": "material not found"
+        }
+        ```

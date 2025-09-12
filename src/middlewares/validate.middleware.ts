@@ -1,5 +1,5 @@
 import type { Request, Response, NextFunction } from 'express';
-import type { ZodObject } from 'zod';
+import { ZodObject, ZodError } from 'zod';
 
 export function ValidateMiddleware(schema: ZodObject) {
   return (req: Request, res: Response, next: NextFunction) => {
@@ -8,8 +8,23 @@ export function ValidateMiddleware(schema: ZodObject) {
 
       next();
     } catch (err: any) {
-      return res.status(400).json({
-        error: err.errors,
+      if (err instanceof ZodError) {
+        const messages = err.issues.reduce((acc, error) => {
+          const field = error.path[0];
+          acc[field] = error.message;
+          return acc;
+        }, {});
+
+        return res.status(400).json({
+          messages,
+        });
+      }
+
+      const MESSAGE = 'Something Error In Validate Middleware';
+      console.log(MESSAGE);
+
+      return res.status(500).json({
+        message: MESSAGE,
       });
     }
   };

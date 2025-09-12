@@ -1,21 +1,35 @@
 import type { Request, Response } from 'express';
 import autoBind from 'auto-bind';
 import { AuthService } from '../services/auth.service';
+import { UserService } from '../services/user.service';
 
 export class AuthController {
-  private authService: AuthService;
+  private _authService: AuthService;
 
   constructor() {
-    this.authService = new AuthService();
+    this._authService = new AuthService(new UserService());
 
     autoBind(this);
   }
 
-  public SignUp(req: Request, res: Response) {
-    return res.status(201).json({ message: 'Sign Up Endpoint' });
+  async SignUp(req: Request, res: Response) {
+    const { username, fullname, password } = req.body;
+
+    await this._authService.SignUp(username, fullname, password);
+
+    return res.status(201).json({ message: 'successfully sign up' });
   }
 
-  public SignIn(req: Request, res: Response) {
-    return res.status(200).json({ message: 'Sign In Endpoint' });
+  async SignIn(req: Request, res: Response) {
+    const { username, password } = req.body;
+
+    const { accessToken, refreshToken } = await this._authService.SignIn(username, password);
+
+    return res.status(200).json({
+      data: {
+        accessToken,
+        refreshToken,
+      },
+    });
   }
 }

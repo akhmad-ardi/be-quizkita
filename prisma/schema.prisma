@@ -6,10 +6,91 @@
 
 generator client {
   provider = "prisma-client-js"
-  output   = "../src/generated/prisma"
 }
 
 datasource db {
   provider = "mysql"
   url      = env("DATABASE_URL")
+}
+
+model Users {
+  id       String @id
+  username String @unique
+  fullname String
+  password String
+
+  // Relation
+  Materials       Materials[]
+  ClassMembers    ClassMembers[]
+  UserQuizResults UserQuizResults[]
+}
+
+model Classes {
+  id         String   @id
+  name       String
+  created_at DateTime @default(now())
+
+  // Relation
+  ClassMembers ClassMembers[]
+  Materials    Materials[]
+}
+
+model ClassMembers {
+  id        String   @id
+  user_id   String
+  class_id  String
+  joined_at DateTime @default(now())
+
+  // Relation
+  User  Users   @relation(fields: [user_id], references: [id])
+  Class Classes @relation(fields: [class_id], references: [id])
+}
+
+model Materials {
+  id         String   @id
+  user_id    String
+  class_id   String
+  title      String
+  content    String
+  created_at DateTime @default(now())
+
+  // Relation
+  User            Users             @relation(fields: [user_id], references: [id])
+  Class           Classes           @relation(fields: [class_id], references: [id])
+  Questions       Questions[]
+  UserQuizResults UserQuizResults[]
+}
+
+model Questions {
+  id            String   @id
+  material_id   String
+  question_text String
+  explanation   String?
+  created_at    DateTime @default(now())
+
+  // Relation
+  Answers  Answers[]
+  Material Materials @relation(fields: [material_id], references: [id])
+}
+
+model Answers {
+  id          String  @id
+  question_id String
+  answer_text String
+  is_correct  Boolean @default(false)
+
+  // Relation
+  Question Questions @relation(fields: [question_id], references: [id])
+}
+
+model UserQuizResults {
+  id           String   @id
+  user_id      String
+  material_id  String
+  score        Int?
+  completed_at DateTime @default(now())
+
+  // Relation
+  User     Users     @relation(fields: [user_id], references: [id])
+  Material Materials @relation(fields: [material_id], references: [id])
 }

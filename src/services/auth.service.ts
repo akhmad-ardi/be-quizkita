@@ -1,11 +1,31 @@
-import { nanoid } from 'nanoid';
+import bcrypt from 'bcrypt';
+import { UserService } from './user.service';
+import { generateRefreshToken, generateAccessToken } from '../lib/jwt';
 
 export class AuthService {
-  public SignUp(username: string, fullname: string, password: string, confirm_password: string) {
-    return { id: `user-${nanoid(16)}`, username, fullname, password };
+  private _userService: UserService;
+
+  constructor(userService: UserService) {
+    this._userService = userService;
   }
 
-  public SignIn(username: string, password: string): string {
-    return '';
+  async SignUp(username: string, fullname: string, password: string) {
+    await this._userService.verifyUsernameAlreadyExist(username);
+
+    await this._userService.addUser(username, fullname, password);
+  }
+
+  async SignIn(username: string, password: string) {
+    const user = await this._userService.getUser(username);
+    const credentialValid = user ? await bcrypt.compare(password, user.password) : false;
+
+    if (!credentialValid) {
+      throw { statusCode: 401, message: 'invalid username or password' };
+    }
+
+    const accessToken = await generateAccessToken(user.username);
+    const refreshToken = await generateRefreshToken(user.username);
+
+    return { accessToken, refreshToken };
   }
 }

@@ -1,4 +1,5 @@
-import express, { Application } from 'express';
+import express, { Application, Request, Response, NextFunction } from 'express';
+import { Prisma } from '@prisma/client';
 import dotenv from 'dotenv';
 
 // routes
@@ -16,18 +17,45 @@ export class App {
 
     this.initializeMiddlewares();
     this.initializeRoutes();
+    this.initializeErrorHandling();
   }
 
+  // Middlewares
   private initializeMiddlewares() {
     this.app.use(express.json());
   }
 
+  // Routes
   private initializeRoutes() {
     this.app.get('/', (req, res) => {
       res.json({ message: 'Hello from Express + OOP + TypeScript 🚀' });
     });
 
     this.app.use('/auth', AuthRouter);
+  }
+
+  // Error Handling Middleware
+  private initializeErrorHandling() {
+    this.app.use((err: any, req: Request, res: Response, next: NextFunction) => {
+      console.error('🔥 Error:', err);
+
+      let status = err.statusCode || 500;
+      let message = err.message || 'Internal Server Error';
+
+      // Prisma error handling
+      if (err instanceof Prisma.PrismaClientKnownRequestError) {
+        // Contoh: Unique constraint failed
+        if (err.code === 'P2002') {
+          status = 400;
+          message = `Duplicate field value: ${err.meta?.target}`;
+        }
+      } else if (err instanceof Prisma.PrismaClientValidationError) {
+        status = 400;
+        message = 'Invalid request to database';
+      }
+
+      return res.status(status).json({ message });
+    });
   }
 
   public listen() {
