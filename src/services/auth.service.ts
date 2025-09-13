@@ -23,8 +23,8 @@ export class AuthService {
       throw { statusCode: 401, message: 'invalid username or password' };
     }
 
-    const accessToken = await generateAccessToken(user.username);
-    const refreshToken = await generateRefreshToken(user.username);
+    const accessToken = await generateAccessToken(user.id, user.username);
+    const refreshToken = await generateRefreshToken(user.id, user.username);
 
     return { accessToken, refreshToken };
   }

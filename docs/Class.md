@@ -11,6 +11,7 @@
       - Status Code: 201
         ```json
         {
+          "class_id": "ABC123",
           "message": "successfully added the class"
         }
         ```
@@ -63,8 +64,14 @@
           "message": "class not found"
         }
         ```
+      - Status Code: 409
+        ```json
+        {
+          "message": "user already exist in class"
+        }
+        ```
 
-3. **Add User to Class**: ```POST /classes/user```
+3. **Add User to Class**: ```POST /classes/{class_id}/user```
     - Request
       ```json
       {
@@ -98,6 +105,12 @@
           "message": "username not found"
         }
         ```
+        or:
+        ```json
+        {
+          "message": "class not found"
+        }
+        ```
 
 4. **List User's Class**: ```GET /classes```
     - Response:
@@ -108,7 +121,8 @@
             "classes": [
               {
                 "id": "class-uuid",
-                "name": "Kelas Matematika Dasar"
+                "name": "Kelas Matematika Dasar",
+                "created_at": "2025-09-13T02:56:25.464Z"
               }
             ]
           }

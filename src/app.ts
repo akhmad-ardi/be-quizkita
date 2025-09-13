@@ -4,6 +4,7 @@ import dotenv from 'dotenv';
 
 // routes
 import { AuthRouter } from './routes/auth.routes';
+import { ClassRouter } from './routes/class.route';
 
 dotenv.config();
 
@@ -32,6 +33,7 @@ export class App {
     });
 
     this.app.use('/auth', AuthRouter);
+    this.app.use('/classes', ClassRouter);
   }
 
   // Error Handling Middleware

@@ -6,8 +6,8 @@ import { UserService } from '../services/user.service';
 export class AuthController {
   private _authService: AuthService;
 
-  constructor() {
-    this._authService = new AuthService(new UserService());
+  constructor(authService: AuthService) {
+    this._authService = authService;
 
     autoBind(this);
   }

@@ -28,4 +28,11 @@ export class UserService {
       throw { statusCode: 409, message: 'username already exist' };
     }
   }
+
+  async verifyUserExist(username: string) {
+    const user = await DB.users.findFirst({ where: { username } });
+    if (!user) {
+      throw { statusCode: 404, message: 'user not found' };
+    }
+  }
 }
