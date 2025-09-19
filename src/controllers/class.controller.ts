@@ -63,4 +63,13 @@ export class ClassController {
 
     return res.status(200).json({ data: { classes } });
   }
+
+  async deleteClass(req: Request, res: Response) {
+    const { classId } = req.params;
+
+    await this._classService.verifyClassExist(classId);
+    await this._classService.deleteClass(classId);
+
+    return res.status(200).json({ message: 'successfully delete class' });
+  }
 }

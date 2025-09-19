@@ -37,4 +37,6 @@ router.post(
   AsyncHandler(classController.addUserToClass)
 );
 
+router.delete('/:classId', AsyncHandler(classController.deleteClass));
+
 export { router as ClassRouter };

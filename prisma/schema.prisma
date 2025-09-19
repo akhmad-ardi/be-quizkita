@@ -35,7 +35,7 @@ model Classes {
   // Relation
   ClassMembers ClassMembers[]
   Materials    Materials[]
-  Users        Users          @relation(fields: [user_id], references: [id])
+  Users        Users          @relation(fields: [user_id], references: [id], onDelete: Cascade)
 }
 
 model ClassMembers {
@@ -45,8 +45,8 @@ model ClassMembers {
   joined_at DateTime @default(now())
 
   // Relation
-  User  Users   @relation(fields: [user_id], references: [id])
-  Class Classes @relation(fields: [class_id], references: [id])
+  User  Users   @relation(fields: [user_id], references: [id], onDelete: Cascade)
+  Class Classes @relation(fields: [class_id], references: [id], onDelete: Cascade)
 }
 
 model Materials {
@@ -58,8 +58,8 @@ model Materials {
   created_at DateTime @default(now())
 
   // Relation
-  User            Users             @relation(fields: [user_id], references: [id])
-  Class           Classes           @relation(fields: [class_id], references: [id])
+  User            Users             @relation(fields: [user_id], references: [id], onDelete: Cascade)
+  Class           Classes           @relation(fields: [class_id], references: [id], onDelete: Cascade)
   Questions       Questions[]
   UserQuizResults UserQuizResults[]
 }
@@ -73,7 +73,7 @@ model Questions {
 
   // Relation
   Answers  Answers[]
-  Material Materials @relation(fields: [material_id], references: [id])
+  Material Materials @relation(fields: [material_id], references: [id], onDelete: Cascade)
 }
 
 model Answers {
@@ -83,7 +83,7 @@ model Answers {
   is_correct  Boolean @default(false)
 
   // Relation
-  Question Questions @relation(fields: [question_id], references: [id])
+  Question Questions @relation(fields: [question_id], references: [id], onDelete: Cascade)
 }
 
 model UserQuizResults {
@@ -94,6 +94,6 @@ model UserQuizResults {
   completed_at DateTime @default(now())
 
   // Relation
-  User     Users     @relation(fields: [user_id], references: [id])
-  Material Materials @relation(fields: [material_id], references: [id])
+  User     Users     @relation(fields: [user_id], references: [id], onDelete: Cascade)
+  Material Materials @relation(fields: [material_id], references: [id], onDelete: Cascade)
 }

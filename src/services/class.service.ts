@@ -25,6 +25,10 @@ export class ClassService {
     return classes.map((c) => c.Class);
   }
 
+  async deleteClass(classId: string) {
+    await DB.classes.delete({ where: { id: classId } });
+  }
+
   async verifyClassExist(id: string) {
     const _class = await DB.classes.findFirst({ where: { id } });
     if (!_class) {
