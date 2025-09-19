@@ -15,18 +15,6 @@ export class ClassService {
     return _class;
   }
 
-  async addClassMember(userId: string, classId: string) {
-    const id = `class-${nanoid(16)}`;
-
-    await DB.classMembers.create({
-      data: {
-        id,
-        user_id: userId,
-        class_id: classId,
-      },
-    });
-  }
-
   async getClasses(userId: string) {
     const classes = await DB.classMembers.findMany({
       where: { user_id: userId },

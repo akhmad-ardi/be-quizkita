@@ -1,7 +1,6 @@
 import type { Request, Response } from 'express';
 import autoBind from 'auto-bind';
 import { AuthService } from '../services/auth.service';
-import { UserService } from '../services/user.service';
 
 export class AuthController {
   private _authService: AuthService;

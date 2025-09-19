@@ -2,13 +2,20 @@ import type { Request, Response } from 'express';
 import autoBind from 'auto-bind';
 import { ClassService } from '../services/class.service';
 import { UserService } from '../services/user.service';
+import { ClassMemberService } from '../services/class-member.service';
 
 export class ClassController {
   private _classService: ClassService;
+  private _classMemberService: ClassMemberService;
   private _userService: UserService;
 
-  constructor(classService: ClassService, userService: UserService) {
+  constructor(
+    classService: ClassService,
+    classMemberService: ClassMemberService,
+    userService: UserService
+  ) {
     this._classService = classService;
+    this._classMemberService = classMemberService;
     this._userService = userService;
 
     autoBind(this);
@@ -19,7 +26,7 @@ export class ClassController {
     const { id: credentialId } = req.user;
 
     const _class = await this._classService.addClass(name);
-    await this._classService.addClassMember(credentialId, _class.id);
+    await this._classMemberService.addClassMember(credentialId, _class.id);
 
     return res.status(201).json({ class_id: _class.id, message: 'successfully added the class' });
   }
@@ -30,7 +37,7 @@ export class ClassController {
 
     await this._classService.verifyClassExist(invite_code);
     await this._classService.verifyUserInClass(credentialId, invite_code);
-    await this._classService.addClassMember(credentialId, invite_code);
+    await this._classMemberService.addClassMember(credentialId, invite_code);
 
     return res.status(200).json({ message: 'successfully joined the class' });
   }
@@ -45,7 +52,7 @@ export class ClassController {
 
     await this._classService.verifyClassExist(classId);
     await this._classService.verifyUserInClass(user.id, classId);
-    await this._classService.addClassMember(user.id, classId);
+    await this._classMemberService.addClassMember(user.id, classId);
 
     return res.status(200).json({ message: 'successfully add user to class' });
   }

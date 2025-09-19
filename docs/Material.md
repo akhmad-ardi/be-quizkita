@@ -13,6 +13,7 @@
       - Status Code: 201
         ```json
         {
+          "material_id": "material-id",
           "message": "successfully added the material"
         }
         ```
@@ -33,7 +34,7 @@
         }
         ```
 
-2. **Get Materials**: ```GET /materials/{class_id}```
+2. **Get Materials**: ```GET /materials/class/{class_id}```
     - Response
       - Status Code: 200
         ```json
