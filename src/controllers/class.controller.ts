@@ -25,8 +25,7 @@ export class ClassController {
     const { name } = req.body;
     const { id: credentialId } = req.user;
 
-    const _class = await this._classService.addClass(name);
-    await this._classMemberService.addClassMember(credentialId, _class.id);
+    const _class = await this._classService.addClass(credentialId, name);
 
     return res.status(201).json({ class_id: _class.id, message: 'successfully added the class' });
   }

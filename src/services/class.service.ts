@@ -2,12 +2,13 @@ import { nanoid } from 'nanoid';
 import { DB } from '../lib/db';
 
 export class ClassService {
-  async addClass(name: string) {
+  async addClass(user_id: string, name: string) {
     const id = `class-${nanoid(16)}`;
 
     const _class = await DB.classes.create({
       data: {
         id,
+        user_id,
         name,
       },
     });
