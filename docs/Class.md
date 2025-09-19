@@ -134,4 +134,19 @@
           "message": "unauthorized"
         }
         ```
+
+4. **Delete Class**: ```DELETE /classes/{class_id}```
+    - Response:
+      - Status Code: 200
+        ```json
+        {
+          "message": "successfully delete class"
+        }
+        ```
+      - Status Code: 404
+        ```json
+        {
+          "message": "class not found"
+        }
+        ```
   
