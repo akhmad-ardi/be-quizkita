@@ -32,28 +32,10 @@ export class AuthService {
     const accessToken = await generateAccessToken(user.id, user.username);
     const refreshToken = await generateRefreshToken(user.id, user.username);
 
-    await DB.token.create({ data: { token: refreshToken } });
-
     return { accessToken, refreshToken };
   }
 
-  async RefreshToken(token: string) {
-    const refreshToken = await DB.token.findFirst({ where: { token } });
-    if (!refreshToken) {
-      throw { statusCode: 404, message: 'Refresh Token Not Found, Please Sign In' };
-    }
-
-    try {
-      const { payload } = await verifyToken(refreshToken.token, secretRefreshToken);
-
-      const accessToken = await generateAccessToken(
-        payload.id as string,
-        payload.username as string
-      );
-
-      return { accessToken, refreshToken: refreshToken.token };
-    } catch (error) {
-      throw { statusCode: 401, message: 'Invalid or expired token' };
-    }
+  async RefreshToken(id: string, username: string) {
+    return await generateAccessToken(id, username);
   }
 }

@@ -13,6 +13,7 @@ export function generateAccessToken(id: string, username: string) {
 export async function generateRefreshToken(id: string, username: string) {
   return await new SignJWT({ id, username })
     .setProtectedHeader({ alg: 'HS256' })
+    .setExpirationTime(process.env.REFRESH_TOKEN_AGE || '7d')
     .sign(secretRefreshToken);
 }
 

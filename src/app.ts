@@ -1,5 +1,6 @@
 import express, { Application, Request, Response, NextFunction } from 'express';
 import { Prisma } from '@prisma/client';
+import cors from 'cors';
 import dotenv from 'dotenv';
 
 // routes
@@ -27,6 +28,11 @@ export class App {
 
   // Middlewares
   private initializeMiddlewares() {
+    this.app.use(
+      cors({
+        origin: ['*'],
+      })
+    );
     this.app.use(express.json());
   }
 

@@ -6,9 +6,10 @@ import { AuthController } from '../controllers/auth.controller';
 // middleware
 import { ValidateMiddleware } from '../middlewares/validate.middleware';
 import { GuestMiddleware } from '../middlewares/guest.middleware';
+import { RefreshTokenMiddleware } from '../middlewares/refresh-token.middleware';
 
 // schema
-import { RefreshTokenSchema, SignInSchema, SignUpSchema } from '../validations/auth.schema';
+import { SignInSchema, SignUpSchema } from '../validations/auth.schema';
 
 // service
 import { AuthService } from '../services/auth.service';
@@ -38,10 +39,6 @@ router.post(
   AsyncHandler(authController.SignIn)
 );
 
-router.post(
-  '/refresh-token',
-  ValidateMiddleware(RefreshTokenSchema),
-  AsyncHandler(authController.RefreshToken)
-);
+router.post('/refresh-token', RefreshTokenMiddleware(), AsyncHandler(authController.RefreshToken));
 
 export { router as AuthRouter };

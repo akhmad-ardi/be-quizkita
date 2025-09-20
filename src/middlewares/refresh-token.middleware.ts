@@ -1,8 +1,8 @@
 import type { Request, Response, NextFunction } from 'express';
-import { verifyToken, secretAccessToken } from '../lib/jwt';
+import { verifyToken, secretRefreshToken } from '../lib/jwt';
 import { extractBearerToken } from '../lib/utils';
 
-export function AuthMiddleware() {
+export function RefreshTokenMiddleware() {
   return async (req: Request, res: Response, next: NextFunction) => {
     try {
       const token = extractBearerToken(req);
@@ -11,13 +11,13 @@ export function AuthMiddleware() {
       }
 
       // Verifikasi token
-      const { payload } = await verifyToken(token, secretAccessToken);
+      const { payload } = await verifyToken(token, secretRefreshToken);
 
       req.user = { id: payload.id as string, username: payload.username as string };
 
       next();
     } catch (err) {
-      console.error('AuthMiddleware error:', err);
+      console.error('RefreshTokenMiddleware error:', err);
       return res.status(403).json({ message: 'Invalid or expired token' });
     }
   };

@@ -13,11 +13,6 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model Token {
-  id    Int    @id @default(autoincrement())
-  token String
-}
-
 model Users {
   id       String @id
   username String @unique

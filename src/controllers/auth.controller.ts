@@ -33,15 +33,12 @@ export class AuthController {
   }
 
   async RefreshToken(req: Request, res: Response) {
-    const { refreshToken: reqRefreshToken } = req.body;
+    const { id, username } = req.user;
 
-    const { accessToken, refreshToken } = await this._authService.RefreshToken(reqRefreshToken);
+    const accessToken = await this._authService.RefreshToken(id, username);
 
     return res.status(200).json({
-      data: {
-        accessToken,
-        refreshToken,
-      },
+      data: { accessToken },
     });
   }
 }

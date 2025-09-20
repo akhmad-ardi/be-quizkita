@@ -16,7 +16,3 @@ export const SignUpSchema = z
     path: ['confirm_password'],
     message: 'confirm password is not match',
   });
-
-export const RefreshTokenSchema = z.object({
-  refreshToken: z.string().nonempty({ error: 'refresh token required' }),
-});
