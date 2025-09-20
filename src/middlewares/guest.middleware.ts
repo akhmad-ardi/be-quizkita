@@ -1,5 +1,5 @@
 import { NextFunction, Request, Response } from 'express';
-import { verifyToken } from '../lib/jwt';
+import { secretRefreshToken, verifyToken } from '../lib/jwt';
 
 export function GuestMiddleware() {
   return async (req: Request, res: Response, next: NextFunction) => {
@@ -13,7 +13,7 @@ export function GuestMiddleware() {
       const token = authHeader.split(' ')[1];
 
       // kalau token valid → berarti user sudah login
-      await verifyToken(token);
+      await verifyToken(token, secretRefreshToken);
 
       return res.status(403).json({
         message: 'You are already logged in',
