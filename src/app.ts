@@ -30,7 +30,9 @@ export class App {
   private initializeMiddlewares() {
     this.app.use(
       cors({
-        origin: ['*'],
+        origin: '*',
+        methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+        allowedHeaders: ['Content-Type', 'Authorization'],
       })
     );
     this.app.use(express.json());
