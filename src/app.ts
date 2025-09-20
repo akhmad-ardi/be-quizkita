@@ -9,7 +9,6 @@ import { MaterialRouter } from './routes/material.routes';
 
 // middlewares
 import { AuthMiddleware } from './middlewares/auth.middeware';
-import { GuestMiddleware } from './middlewares/guest.middleware';
 
 dotenv.config();
 
@@ -37,7 +36,7 @@ export class App {
       res.json({ message: 'Hello from Express + OOP + TypeScript 🚀' });
     });
 
-    this.app.use('/auth', GuestMiddleware(), AuthRouter);
+    this.app.use('/auth', AuthRouter);
     this.app.use('/classes', AuthMiddleware(), ClassRouter);
     this.app.use('/materials', AuthMiddleware(), MaterialRouter);
   }

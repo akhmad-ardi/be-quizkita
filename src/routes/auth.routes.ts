@@ -5,14 +5,14 @@ import { AuthController } from '../controllers/auth.controller';
 
 // middleware
 import { ValidateMiddleware } from '../middlewares/validate.middleware';
+import { GuestMiddleware } from '../middlewares/guest.middleware';
 
 // schema
-import { SignInSchema, SignUpSchema } from '../validations/auth.schema';
+import { RefreshTokenSchema, SignInSchema, SignUpSchema } from '../validations/auth.schema';
 
 // service
 import { AuthService } from '../services/auth.service';
 import { UserService } from '../services/user.service';
-import { GuestMiddleware } from '../middlewares/guest.middleware';
 
 // lib
 import { AsyncHandler } from '../lib/utils';
@@ -36,6 +36,12 @@ router.post(
   GuestMiddleware(),
   ValidateMiddleware(SignInSchema),
   AsyncHandler(authController.SignIn)
+);
+
+router.post(
+  '/refresh-token',
+  ValidateMiddleware(RefreshTokenSchema),
+  AsyncHandler(authController.RefreshToken)
 );
 
 export { router as AuthRouter };
