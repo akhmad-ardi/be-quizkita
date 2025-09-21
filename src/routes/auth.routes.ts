@@ -5,6 +5,7 @@ import { AuthController } from '../controllers/auth.controller';
 
 // middleware
 import { ValidateMiddleware } from '../middlewares/validate.middleware';
+import { AuthMiddleware } from '../middlewares/auth.middeware';
 import { GuestMiddleware } from '../middlewares/guest.middleware';
 import { RefreshTokenMiddleware } from '../middlewares/refresh-token.middleware';
 
@@ -22,7 +23,6 @@ const router = Router();
 
 const userService = new UserService();
 const authService = new AuthService(userService);
-
 const authController = new AuthController(authService);
 
 router.post(
@@ -40,5 +40,11 @@ router.post(
 );
 
 router.post('/refresh-token', RefreshTokenMiddleware(), AsyncHandler(authController.RefreshToken));
+
+router.get(
+  '/validate-access-token',
+  AuthMiddleware(),
+  AsyncHandler(authController.ValidateAccessToken)
+);
 
 export { router as AuthRouter };

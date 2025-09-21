@@ -41,4 +41,13 @@ export class AuthController {
       data: { accessToken },
     });
   }
+
+  async ValidateAccessToken(req: Request, res: Response) {
+    return res.status(200).json({
+      message: 'token is valid',
+      data: {
+        is_valid: true,
+      },
+    });
+  }
 }
