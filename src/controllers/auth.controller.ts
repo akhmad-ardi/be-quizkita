@@ -22,32 +22,16 @@ export class AuthController {
   async SignIn(req: Request, res: Response) {
     const { username, password } = req.body;
 
-    const { accessToken, refreshToken } = await this._authService.SignIn(username, password);
+    const { token } = await this._authService.SignIn(username, password);
 
     return res.status(200).json({
       data: {
-        accessToken,
-        refreshToken,
+        token,
       },
     });
   }
 
-  async RefreshToken(req: Request, res: Response) {
-    const { id, username } = req.user;
-
-    const accessToken = await this._authService.RefreshToken(id, username);
-
-    return res.status(200).json({
-      data: { accessToken },
-    });
-  }
-
-  async ValidateAccessToken(req: Request, res: Response) {
-    return res.status(200).json({
-      message: 'token is valid',
-      data: {
-        is_valid: true,
-      },
-    });
+  async ValidateToken(req: Request, res: Response) {
+    return res.status(200).json({ is_auth: true });
   }
 }

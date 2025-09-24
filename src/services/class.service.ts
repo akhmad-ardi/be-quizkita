@@ -17,12 +17,20 @@ export class ClassService {
   }
 
   async getClasses(userId: string) {
-    const classes = await DB.classMembers.findMany({
+    const classes = await DB.classes.findMany({
       where: { user_id: userId },
-      select: { Class: true },
+      include: { Materials: true },
+      orderBy: {
+        created_at: 'desc',
+      },
     });
 
-    return classes.map((c) => c.Class);
+    return classes.map((c) => ({
+      id: c.id,
+      name: c.name,
+      total_quiz: c.Materials.length,
+      created_at: c.created_at,
+    }));
   }
 
   async deleteClass(classId: string) {

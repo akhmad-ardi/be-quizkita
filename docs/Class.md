@@ -122,6 +122,7 @@
               {
                 "id": "class-uuid",
                 "name": "Kelas Matematika Dasar",
+                "total_quiz": 4,
                 "created_at": "2025-09-13T02:56:25.464Z"
               }
             ]

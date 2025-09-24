@@ -1,12 +1,6 @@
 import bcrypt from 'bcrypt';
-import { DB } from '../lib/db';
 import { UserService } from './user.service';
-import {
-  generateRefreshToken,
-  generateAccessToken,
-  verifyToken,
-  secretRefreshToken,
-} from '../lib/jwt';
+import { generateToken } from '../lib/jwt';
 
 export class AuthService {
   private _userService: UserService;
@@ -29,13 +23,8 @@ export class AuthService {
       throw { statusCode: 401, message: 'invalid username or password' };
     }
 
-    const accessToken = await generateAccessToken(user.id, user.username);
-    const refreshToken = await generateRefreshToken(user.id, user.username);
+    const token = await generateToken(user.id, user.username);
 
-    return { accessToken, refreshToken };
-  }
-
-  async RefreshToken(id: string, username: string) {
-    return await generateAccessToken(id, username);
+    return { token };
   }
 }
