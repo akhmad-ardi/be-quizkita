@@ -7,7 +7,12 @@ import { ClassController } from '../controllers/class.controller';
 import { ValidateMiddleware } from '../middlewares/validate.middleware';
 
 // schema
-import { AddClassSchema, AddUserToClassSchema, JoinClassSchema } from '../validations/class.schema';
+import {
+  AddClassSchema,
+  AddUserToClassSchema,
+  DeleteClassMemberSchema,
+  JoinClassSchema,
+} from '../validations/class.schema';
 
 // service
 import { ClassService } from '../services/class.service';
@@ -38,5 +43,11 @@ router.post(
 );
 
 router.delete('/:classId', AsyncHandler(classController.deleteClass));
+
+router.delete(
+  '/:classId/class-members',
+  ValidateMiddleware(DeleteClassMemberSchema),
+  AsyncHandler(classController.deleteClassMember)
+);
 
 export { router as ClassRouter };

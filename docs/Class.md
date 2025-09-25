@@ -151,3 +151,30 @@
         }
         ```
   
+4. **Delete Class Member**: ```DELETE /classes/{class_id}/class-members```
+    - Request:
+      ```json
+      {
+        "user_id": "user-id"
+      }
+      ```
+    - Response:
+      - Status Code: 200
+        ```json
+        {
+          "message": "successfully delete class member"
+        }
+        ```
+      - Status Code: 403
+        ```json
+        {
+          "message": "token verification failed"
+        }
+        ```
+      - Status Code: 404
+        ```json
+        {
+          "message": "class not found"
+        }
+        ```
+  

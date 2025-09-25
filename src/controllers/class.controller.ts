@@ -35,7 +35,7 @@ export class ClassController {
     const { id: credentialId } = req.user;
 
     await this._classService.verifyClassExist(invite_code);
-    await this._classService.verifyUserInClass(credentialId, invite_code);
+    await this._classMemberService.verifyClassMember(invite_code, credentialId);
     await this._classMemberService.addClassMember(credentialId, invite_code);
 
     return res.status(200).json({ message: 'successfully joined the class' });
@@ -50,7 +50,7 @@ export class ClassController {
     const user = await this._userService.getUser(username);
 
     await this._classService.verifyClassExist(classId);
-    await this._classService.verifyUserInClass(user.id, classId);
+    await this._classMemberService.verifyClassMember(classId, user.id);
     await this._classMemberService.addClassMember(user.id, classId);
 
     return res.status(200).json({ message: 'successfully add user to class' });
@@ -65,11 +65,26 @@ export class ClassController {
   }
 
   async deleteClass(req: Request, res: Response) {
+    const { id: credentialId } = req.user;
     const { classId } = req.params;
 
     await this._classService.verifyClassExist(classId);
+    await this._classService.verifyClassOwner(classId, credentialId);
     await this._classService.deleteClass(classId);
 
     return res.status(200).json({ message: 'successfully delete class' });
+  }
+
+  async deleteClassMember(req: Request, res: Response) {
+    const { id: credentialId } = req.user;
+    const { classId } = req.params;
+    const { user_id } = req.body;
+
+    await this._classService.verifyClassExist(classId);
+    await this._classService.verifyClassOwner(classId, credentialId);
+    await this._classMemberService.verifyClassMember(classId, user_id);
+    await this._classMemberService.deleteClassMember(classId, user_id);
+
+    return res.status(200).json({ message: 'successfullly delete class member' });
   }
 }

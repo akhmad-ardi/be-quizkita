@@ -37,19 +37,17 @@ export class ClassService {
     await DB.classes.delete({ where: { id: classId } });
   }
 
-  async verifyClassExist(id: string) {
-    const _class = await DB.classes.findFirst({ where: { id } });
+  async verifyClassOwner(classId: string, userId: string) {
+    const _class = await DB.classes.findFirst({ where: { id: classId, user_id: userId } });
     if (!_class) {
       throw { statusCode: 404, message: 'class not found' };
     }
   }
 
-  async verifyUserInClass(userId: string, classId: string) {
-    const _class = await DB.classMembers.findFirst({
-      where: { class_id: classId, user_id: userId },
-    });
-    if (_class) {
-      throw { statusCode: 409, message: 'user already exist in class' };
+  async verifyClassExist(id: string) {
+    const _class = await DB.classes.findFirst({ where: { id } });
+    if (!_class) {
+      throw { statusCode: 404, message: 'class not found' };
     }
   }
 }

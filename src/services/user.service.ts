@@ -1,3 +1,4 @@
+import { Prisma } from '@prisma/client';
 import { nanoid } from 'nanoid';
 import bcrypt from 'bcrypt';
 import { DB } from '../lib/db';
@@ -18,8 +19,13 @@ export class UserService {
     });
   }
 
-  async getUser(username: string) {
-    return DB.users.findFirst({ where: { username } });
+  async getUser(username: string, select?: Prisma.UsersSelect) {
+    const user = await DB.users.findFirst({ where: { username }, select });
+    if (!user) {
+      throw { statusCode: 404, message: 'user not found' };
+    }
+
+    return user;
   }
 
   async verifyUsernameAlreadyExist(username: string) {

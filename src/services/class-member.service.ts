@@ -13,4 +13,19 @@ export class ClassMemberService {
       },
     });
   }
+
+  async deleteClassMember(classId: string, userId: string) {
+    await DB.classMembers.deleteMany({ where: { class_id: classId, user_id: userId } });
+  }
+
+  async verifyClassMember(classId: string, userId: string) {
+    const checkClassOwner = await DB.classes.findFirst({ where: { user_id: userId } });
+    const checkClassMember = await DB.classMembers.findFirst({
+      where: { class_id: classId, user_id: userId },
+    });
+
+    if (checkClassOwner || checkClassMember) {
+      throw { statusCode: 409, message: 'user already exist in class' };
+    }
+  }
 }

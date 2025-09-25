@@ -11,3 +11,7 @@ export const JoinClassSchema = z.object({
 export const AddUserToClassSchema = z.object({
   username: z.string().nonempty({ error: 'username required' }),
 });
+
+export const DeleteClassMemberSchema = z.object({
+  user_id: z.string().nonempty({ error: 'id user required' }),
+});

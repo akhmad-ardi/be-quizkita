@@ -8,7 +8,7 @@ export function AuthMiddleware() {
     try {
       const token = extractBearerToken(req);
       if (!token) {
-        return res.status(401).json({ message: 'Missing or invalid Authorization header' });
+        throw new Error('Missing or invalid Authorization header');
       }
 
       // Verifikasi token
@@ -18,23 +18,23 @@ export function AuthMiddleware() {
 
       next();
     } catch (err) {
-      if (err instanceof errors.JWTExpired) {
-        return res.status(401).json({ message: 'token expired', is_auth: false });
+      if (err instanceof errors.JWTExpired || err instanceof Error) {
+        return res.status(401).json({ message: err.message, is_auth: false });
       }
 
       if (err instanceof errors.JWSSignatureVerificationFailed) {
-        return res.status(403).json({ message: 'invalid token signature', is_auth: false });
+        return res.status(403).json({ message: err.message, is_auth: false });
       }
 
       if (err instanceof errors.JWTClaimValidationFailed) {
         if ((err as errors.JWTClaimValidationFailed).claim === 'nbf') {
-          return res.status(401).json({ message: 'token not active yet', is_auth: false });
+          return res.status(401).json({ message: err.message, is_auth: false });
         }
-        return res.status(403).json({ message: 'invalid token claims', is_auth: false });
+        return res.status(403).json({ message: err.message, is_auth: false });
       }
 
       console.error('JWT verification error:', err);
-      return res.status(400).json({ message: 'token verification failed', is_auth: false });
+      return res.status(403).json({ message: 'token verification failed', is_auth: false });
     }
   };
 }

@@ -5,6 +5,7 @@ import dotenv from 'dotenv';
 
 // routes
 import { AuthRouter } from './routes/auth.routes';
+import { UserRouter } from './routes/user.routes';
 import { ClassRouter } from './routes/class.route';
 import { MaterialRouter } from './routes/material.routes';
 
@@ -45,6 +46,7 @@ export class App {
     });
 
     this.app.use('/auth', AuthRouter);
+    this.app.use('/users', AuthMiddleware(), UserRouter);
     this.app.use('/classes', AuthMiddleware(), ClassRouter);
     this.app.use('/materials', AuthMiddleware(), MaterialRouter);
   }
