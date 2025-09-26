@@ -54,7 +54,7 @@ model Materials {
   user_id    String
   class_id   String
   title      String
-  content    String
+  content    String   @db.MediumText
   created_at DateTime @default(now())
 
   // Relation

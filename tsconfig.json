@@ -42,5 +42,7 @@
     "skipLibCheck": true,
     "esModuleInterop": true,
     "moduleResolution": "node"
-  }
+  },
+  "include": ["src"],
+  "exclude": ["vitest.config.mts"]
 }

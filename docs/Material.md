@@ -34,7 +34,7 @@
         }
         ```
 
-2. **Get Materials**: ```GET /materials/class/{class_id}```
+2. **Get Materials**: ```GET /materials/{class_id}/class```
     - Response
       - Status Code: 200
         ```json
@@ -44,7 +44,7 @@
               {
                 "id": "material-id",
                 "title": "Materi AlJabar",
-                "author": "ardi123",
+                "total_quiz": 5,
                 "created_at": "Senin, 20 Agustus 2025"
               }
             ]
@@ -69,10 +69,39 @@
               {
                 "id": "question-id",
                 "question_text": "Apa itu aljabar?",
-                "options": ["A", "B", "C", "D"],
+                "Answers": ["A", "B", "C", "D"],
               }
             ]
           }
+        }
+        ```
+      - Status Code: 401
+        ```json
+        {
+          "message": "unauthorized",
+          "is_auth": false
+        }
+        ```
+      - Status Code: 404
+        ```json
+        {
+          "message": "material not found"
+        }
+        ```
+
+4. **Delete Material**: ```DELETE /materials/{material_id}```
+    - Response
+      - Status Code: 200
+        ```json
+        {
+          "message": "successfully added the material"
+        }
+        ```
+      - Status Code: 401
+        ```json
+        {
+          "message": "unauthorized",
+          "is_auth": false
         }
         ```
       - Status Code: 404

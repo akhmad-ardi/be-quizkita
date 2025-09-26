@@ -29,8 +29,10 @@ router.post(
   AsyncHandler(materialController.addMaterial)
 );
 
-router.get('/class/:classId', AsyncHandler(materialController.getMaterials));
+router.get('/:classId/class', AsyncHandler(materialController.getMaterials));
 
 router.get('/:materialId', AsyncHandler(materialController.getMaterial));
+
+router.delete('/:materialId', AsyncHandler(materialController.deleteMaterial));
 
 export { router as MaterialRouter };
