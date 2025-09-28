@@ -8,6 +8,7 @@ import { AuthRouter } from './routes/auth.routes';
 import { UserRouter } from './routes/user.routes';
 import { ClassRouter } from './routes/class.route';
 import { MaterialRouter } from './routes/material.routes';
+import { QuizRouter } from './routes/quiz.routes';
 
 // middlewares
 import { AuthMiddleware } from './middlewares/auth.middeware';
@@ -49,6 +50,11 @@ export class App {
     this.app.use('/users', AuthMiddleware(), UserRouter);
     this.app.use('/classes', AuthMiddleware(), ClassRouter);
     this.app.use('/materials', AuthMiddleware(), MaterialRouter);
+    this.app.use('/quiz', AuthMiddleware(), QuizRouter);
+
+    this.app.use((req: Request, res: Response) => {
+      return res.status(404).json({ message: 'url not found' });
+    });
   }
 
   // Error Handling Middleware

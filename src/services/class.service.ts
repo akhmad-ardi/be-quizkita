@@ -33,11 +33,17 @@ export class ClassService {
     }));
   }
 
+  async getClass(classId: string) {
+    const _class = await DB.classes.findFirst({ where: { id: classId } });
+
+    return _class;
+  }
+
   async deleteClass(classId: string) {
     await DB.classes.delete({ where: { id: classId } });
   }
 
-  async verifyClassOwner(classId: string, userId: string) {
+  async verifyClassOwner({ classId, userId }: { classId: string; userId: string }) {
     const _class = await DB.classes.findFirst({ where: { id: classId, user_id: userId } });
     if (!_class) {
       throw { statusCode: 404, message: 'class not found' };

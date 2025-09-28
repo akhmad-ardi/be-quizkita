@@ -14,11 +14,7 @@ export class UserController {
   async GetAuthUser(req: Request, res: Response) {
     const { username } = req.user;
 
-    const user = await this._userService.getUser(username, {
-      id: true,
-      username: true,
-      fullname: true,
-    });
+    const user = await this._userService.getUser(username);
 
     return res.status(200).json({ data: { user } });
   }

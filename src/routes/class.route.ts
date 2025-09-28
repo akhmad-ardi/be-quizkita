@@ -21,18 +21,25 @@ import { UserService } from '../services/user.service';
 // lib
 import { AsyncHandler } from '../lib/utils';
 import { ClassMemberService } from '../services/class-member.service';
+import { MaterialService } from '../services/material.service';
+import { QuestionService } from '../services/question.service';
 
 const router = Router();
 
 const classMemberService = new ClassMemberService();
 const classService = new ClassService();
 const userService = new UserService();
+const questionService = new QuestionService();
+const materialService = new MaterialService(questionService);
 
-const classController = new ClassController(classService, classMemberService, userService);
+const classController = new ClassController(
+  classService,
+  classMemberService,
+  userService,
+  materialService
+);
 
 router.post('/', ValidateMiddleware(AddClassSchema), AsyncHandler(classController.addClass));
-
-router.get('/', AsyncHandler(classController.getClasses));
 
 router.post('/join', ValidateMiddleware(JoinClassSchema), AsyncHandler(classController.joinClass));
 
@@ -42,6 +49,8 @@ router.post(
   AsyncHandler(classController.addUserToClass)
 );
 
+router.get('/', AsyncHandler(classController.getClasses));
+
 router.delete('/:classId', AsyncHandler(classController.deleteClass));
 
 router.delete(
@@ -49,5 +58,7 @@ router.delete(
   ValidateMiddleware(DeleteClassMemberSchema),
   AsyncHandler(classController.deleteClassMember)
 );
+
+router.get('/:classId/leaderboard', AsyncHandler(classController.getLeaderboard));
 
 export { router as ClassRouter };

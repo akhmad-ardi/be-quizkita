@@ -9,7 +9,7 @@
         "answers": [
           {
             "question_id": "question-id", 
-            "answer": "A"
+            "answer_id": "answer-id"
           }
         ]
       }
@@ -24,7 +24,7 @@
               {
                 "question_id": "question-id", 
                 "question_text": "Apa itu Alajabar?",
-                "answer": "A",
+                "user_answer": "A",
                 "correct": true,
                 "correct_answer": "A",
                 "explanation": "Aljabar adalah ..."
@@ -45,20 +45,3 @@
           "message": "quiz not found"
         }
         ```
-
-2. **Review Result**: ```GET /quiz/results/{class_id}```
-    - Response
-      ```json
-      {
-        "data": {
-          "quiz_results": [
-            {
-              "id": "quiz_result-id",
-              "title_material": "Materi Aljabar",
-              "score": 80,
-              "completed_at": "2025-09-10T12:00:00Z"
-            }
-          ]
-        }
-      }
-      ```

@@ -136,7 +136,7 @@
         }
         ```
 
-4. **Delete Class**: ```DELETE /classes/{class_id}```
+5. **Delete Class**: ```DELETE /classes/{class_id}```
     - Response:
       - Status Code: 200
         ```json
@@ -151,7 +151,7 @@
         }
         ```
   
-4. **Delete Class Member**: ```DELETE /classes/{class_id}/class-members```
+6. **Delete Class Member**: ```DELETE /classes/{class_id}/class-members```
     - Request:
       ```json
       {
@@ -177,4 +177,20 @@
           "message": "class not found"
         }
         ```
-  
+
+7. **Leaderboard**: ```GET /classes/{class_id}/leaderboard```
+    - Response
+      ```json
+      {
+        "data": {
+          "leaderboard": [
+            {
+              "id": "quiz_result-id",
+              "title_material": "Materi Aljabar",
+              "score": 80,
+              "completed_at": "2025-09-10T12:00:00Z"
+            }
+          ]
+        }
+      }
+      ```

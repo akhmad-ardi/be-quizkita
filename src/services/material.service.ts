@@ -37,19 +37,14 @@ export class MaterialService {
     return { material_id };
   }
 
-  async getMaterials({ userId, classId }: { userId: string; classId: string }) {
+  async getMaterials(classId: string) {
     const materials = await DB.materials.findMany({
-      where: { user_id: userId, class_id: classId },
+      where: { class_id: classId },
       include: { Questions: true },
       orderBy: { created_at: 'desc' },
     });
 
-    return materials.map((material) => ({
-      id: material.id,
-      title: material.title,
-      total_quiz: material.Questions.length,
-      created_at: material.created_at,
-    }));
+    return materials;
   }
 
   async getMaterial({ materialId }: { materialId: string }) {
@@ -65,7 +60,7 @@ export class MaterialService {
           id: answer.id,
           question_id: answer.question_id,
           answer_text: answer.answer_text,
-        })),
+        })).sort((a, b) => a.answer_text.localeCompare(b.answer_text)),
       };
     });
   }

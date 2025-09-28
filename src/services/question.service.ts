@@ -46,4 +46,13 @@ export class QuestionService {
       data: data_answers,
     });
   }
+
+  async getQuestions({ materialId }: { materialId: string }) {
+    const questions = await DB.questions.findMany({
+      where: { material_id: materialId },
+      include: { Answers: true },
+    });
+
+    return questions;
+  }
 }
