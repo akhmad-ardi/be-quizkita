@@ -44,7 +44,7 @@
               {
                 "id": "material-id",
                 "title": "Materi AlJabar",
-                "total_quiz": 5,
+                "total_questions": 5,
                 "created_at": "Senin, 20 Agustus 2025"
               }
             ]
@@ -69,7 +69,13 @@
               {
                 "id": "question-id",
                 "question_text": "Apa itu aljabar?",
-                "Answers": ["A", "B", "C", "D"],
+                "Answers": [
+                  {
+                    "id": "answer-id",
+                    "question_id": "question-id",
+                    "answer_text": "A. Answer Text",
+                  }
+                ],
               }
             ]
           }
