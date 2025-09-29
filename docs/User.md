@@ -1,6 +1,6 @@
 # Authentication
 
-1. **Get User Auth**: ```GET //sign-up```
+1. **Get User Auth**: ```GET /user/auth```
     - Response
       - Status Code: 200
         ```json
