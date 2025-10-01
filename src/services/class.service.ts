@@ -18,7 +18,9 @@ export class ClassService {
 
   async getClasses(userId: string) {
     const classes = await DB.classes.findMany({
-      where: { user_id: userId },
+      where: {
+        OR: [{ user_id: userId }, { ClassMembers: { some: { user_id: userId } } }],
+      },
       include: { Materials: true },
       orderBy: {
         created_at: 'desc',

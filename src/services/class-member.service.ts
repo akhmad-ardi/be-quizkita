@@ -38,7 +38,9 @@ export class ClassMemberService {
   }
 
   async verifyClassMemberAlreadyExist({ classId, userId }: { classId: string; userId: string }) {
-    const checkClassOwner = await DB.classes.findFirst({ where: { user_id: userId } });
+    const checkClassOwner = await DB.classes.findFirst({
+      where: { AND: [{ id: classId }, { user_id: userId }] },
+    });
     const checkClassMember = await DB.classMembers.findFirst({
       where: { class_id: classId, user_id: userId },
     });

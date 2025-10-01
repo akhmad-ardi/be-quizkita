@@ -50,10 +50,13 @@ export class MaterialService {
   async getMaterial({ materialId }: { materialId: string }) {
     const material = await DB.materials.findFirst({
       where: { id: materialId },
-      include: { Questions: { include: { Answers: true } } },
+      include: {
+        Questions: { include: { Answers: true } },
+        Class: { select: { user_id: true } },
+      },
     });
 
-    return material.Questions.map((question) => {
+    const questions = material.Questions.map((question) => {
       return {
         ...question,
         Answers: question.Answers.map((answer) => ({
@@ -63,6 +66,14 @@ export class MaterialService {
         })).sort((a, b) => a.answer_text.localeCompare(b.answer_text)),
       };
     });
+
+    return {
+      material_id: material.id,
+      user_id: material.user_id,
+      title: material.title,
+      content: material.content,
+      questions,
+    };
   }
 
   async deleteMaterial({ userId, materialId }: { userId: string; materialId: string }) {

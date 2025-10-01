@@ -40,6 +40,9 @@
         ```json
         {
           "data": {
+            "class_id": "class-id",
+            "user_id": "user-id",
+            "class_name": "class name",
             "materials": [
               {
                 "id": "material-id",
@@ -65,6 +68,8 @@
         {
           "data": {
             "material_id": "material-id",
+            "title": "title material",
+            "content": "content material",
             "questions": [
               {
                 "id": "question-id",

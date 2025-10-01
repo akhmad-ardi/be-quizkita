@@ -2,14 +2,21 @@ import { Request, Response } from 'express';
 import autoBind from 'auto-bind';
 import { MaterialService } from '../services/material.service';
 import { ClassMemberService } from '../services/class-member.service';
+import { ClassService } from '../services/class.service';
 
 export class MaterialController {
   private _materialService: MaterialService;
   private _classmemberService: ClassMemberService;
+  private _classService: ClassService;
 
-  constructor(materialService: MaterialService, classMemberService: ClassMemberService) {
+  constructor(
+    materialService: MaterialService,
+    classMemberService: ClassMemberService,
+    classService: ClassService
+  ) {
     this._materialService = materialService;
     this._classmemberService = classMemberService;
+    this._classService = classService;
 
     autoBind(this);
   }
@@ -32,15 +39,20 @@ export class MaterialController {
     const { id: credentialId } = req.user;
     const { classId } = req.params;
 
+    await this._classService.verifyClassExist(classId);
     await this._classmemberService.verifyClassMember({ userId: credentialId, classId });
+    const _class = await this._classService.getClass(classId);
     const materials = await this._materialService.getMaterials(classId);
 
     return res.status(200).json({
       data: {
+        class_id: _class.id,
+        user_id: _class.user_id,
+        class_name: _class.name,
         materials: materials.map((material) => ({
           id: material.id,
           title: material.title,
-          total_quiz: material.Questions.length,
+          total_questions: material.Questions.length,
           created_at: material.created_at,
         })),
       },
@@ -53,7 +65,7 @@ export class MaterialController {
     await this._materialService.verifyMaterialExist({ materialId });
     const material = await this._materialService.getMaterial({ materialId });
 
-    return res.status(200).json({ data: { questions: material } });
+    return res.status(200).json({ data: { ...material } });
   }
 
   async deleteMaterial(req: Request, res: Response) {

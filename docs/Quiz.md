@@ -45,3 +45,24 @@
           "message": "quiz not found"
         }
         ```
+
+2. **Get User Quiz Result**: ```GET /quiz/{material_id}```
+    - Response
+      - Status Code: 200
+        ```json
+        {
+          "data": {
+              "id": "user-quiz-result-id",
+              "material_id": "material-id",
+              "score": 100,
+              "user_id": "user-id",
+              "completed_at": "date",
+          }
+        }
+        ```
+      - Status Code: 404
+        ```json
+        {
+          "message": "user quiz result not found"
+        }
+        ```

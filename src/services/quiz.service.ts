@@ -4,7 +4,7 @@ import { QuestionService } from './question.service';
 import { SubmitAnswerType } from '../validations/quiz.schema';
 
 export class QuizService {
-  _questionService: QuestionService;
+  private _questionService: QuestionService;
 
   constructor(questionService: QuestionService) {
     this._questionService = questionService;
@@ -55,5 +55,29 @@ export class QuizService {
     return { score, feedback: result };
   }
 
-  async verifyQuizResult() {}
+  async getUserQuizResult({ materialId, userId }: { materialId: string; userId: string }) {
+    const userQuizResult = await DB.userQuizResults.findFirst({
+      where: { AND: [{ material_id: materialId }, { user_id: userId }] },
+    });
+    if (!userQuizResult) {
+      throw { status: 404, message: 'user quiz result not found' };
+    }
+
+    return userQuizResult;
+  }
+
+  async verifyQuizResultAlreadyExist({
+    materialId,
+    userId,
+  }: {
+    materialId: string;
+    userId: string;
+  }) {
+    const quizResult = await DB.userQuizResults.findFirst({
+      where: { AND: [{ user_id: userId }, { material_id: materialId }] },
+    });
+    if (quizResult) {
+      throw { status: 409, message: 'you have taken this quiz' };
+    }
+  }
 }

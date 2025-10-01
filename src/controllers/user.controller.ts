@@ -3,7 +3,7 @@ import autoBind from 'auto-bind';
 import { UserService } from '../services/user.service';
 
 export class UserController {
-  _userService: UserService;
+  private _userService: UserService;
 
   constructor(userService: UserService) {
     this._userService = userService;

@@ -12,18 +12,24 @@ import { AddMaterialSchema } from '../validations/material.schema';
 // service
 import { MaterialService } from '../services/material.service';
 import { ClassMemberService } from '../services/class-member.service';
+import { QuestionService } from '../services/question.service';
+import { ClassService } from '../services/class.service';
 
 // lib
 import { AsyncHandler } from '../lib/utils';
-import { QuestionService } from '../services/question.service';
 
 const router = Router();
 
 const questionService = new QuestionService();
+const classService = new ClassService();
 const classMemberService = new ClassMemberService();
 const materialService = new MaterialService(questionService);
 
-const materialController = new MaterialController(materialService, classMemberService);
+const materialController = new MaterialController(
+  materialService,
+  classMemberService,
+  classService
+);
 
 router.post(
   '/',

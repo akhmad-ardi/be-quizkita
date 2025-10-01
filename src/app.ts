@@ -81,6 +81,10 @@ export class App {
     });
   }
 
+  public getExpressApp(): Application {
+    return this.app;
+  }
+
   public listen() {
     this.app.listen(this.port, () => {
       console.log(`🚀 Server ${process.env.APP_NAME} running at http://localhost:${this.port}`);
