@@ -1,6 +1,6 @@
 import type { Request, Response, NextFunction } from 'express';
 import { errors } from 'jose';
-import { verifyToken, secretToken } from '../lib/jwt';
+import { verifyToken } from '../lib/jwt';
 import { extractBearerToken } from '../lib/utils';
 
 export function AuthMiddleware() {
@@ -10,6 +10,8 @@ export function AuthMiddleware() {
       if (!token) {
         throw new Error('Missing or invalid Authorization header');
       }
+
+      const secretToken = new TextEncoder().encode((process.env.TOKEN_KEY || '').trim());
 
       // Verifikasi token
       const { payload } = await verifyToken(token, secretToken);

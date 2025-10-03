@@ -1,6 +1,6 @@
 import { NextFunction, Request, Response } from 'express';
 import { errors } from 'jose';
-import { secretToken, verifyToken } from '../lib/jwt';
+import { verifyToken } from '../lib/jwt';
 
 export function GuestMiddleware() {
   return async (req: Request, res: Response, next: NextFunction) => {
@@ -11,6 +11,7 @@ export function GuestMiddleware() {
       }
 
       const token = authHeader.split(' ')[1];
+      const secretToken = new TextEncoder().encode((process.env.TOKEN_KEY || '').trim());
 
       await verifyToken(token, secretToken);
 

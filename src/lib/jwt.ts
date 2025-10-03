@@ -1,8 +1,8 @@
 import { SignJWT, jwtVerify } from 'jose';
 
-export const secretToken = new TextEncoder().encode((process.env.TOKEN_KEY || '').trim());
-
 export async function generateToken(id: string, username: string) {
+  const secretToken = new TextEncoder().encode((process.env.TOKEN_KEY || '').trim());
+
   return await new SignJWT({ id, username })
     .setProtectedHeader({ alg: 'HS256' })
     .setExpirationTime(process.env.TOKEN_AGE || '3d')
