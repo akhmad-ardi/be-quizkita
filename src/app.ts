@@ -87,7 +87,9 @@ export class App {
 
   public listen() {
     this.app.listen(this.port, () => {
-      console.log(`🚀 Server ${process.env.APP_NAME} running at http://localhost:${this.port}`);
+      const host = process.env.NODE_ENV === 'production' ? '0.0.0.0' : 'localhost';
+
+      console.log(`🚀 Server ${process.env.APP_NAME} running at http://${host}:${this.port}`);
     });
   }
 }
