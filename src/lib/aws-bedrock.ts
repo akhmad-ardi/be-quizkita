@@ -20,17 +20,17 @@ import {
 // Credentials will be automatically loaded from the environment.
 const client = new BedrockRuntimeClient({ region: 'ap-southeast-1' });
 
-// Step 2: Specify which model to use:
-// Available Amazon Nova models and their characteristics:
-// - Amazon Nova Micro: Text-only model optimized for lowest latency and cost
-// - Amazon Nova Lite:  Fast, low-cost multimodal model for image, video, and text
-// - Amazon Nova Pro:   Advanced multimodal model balancing accuracy, speed, and cost
-//
-// For the most current model IDs, see:
-// https://docs.aws.amazon.com/bedrock/latest/userguide/models-supported.html
-const modelId = process.env.MODEL_ID;
-
 export async function GenerateQuestions({ content }: { content: string }) {
+  // Step 2: Specify which model to use:
+  // Available Amazon Nova models and their characteristics:
+  // - Amazon Nova Micro: Text-only model optimized for lowest latency and cost
+  // - Amazon Nova Lite:  Fast, low-cost multimodal model for image, video, and text
+  // - Amazon Nova Pro:   Advanced multimodal model balancing accuracy, speed, and cost
+  //
+  // For the most current model IDs, see:
+  // https://docs.aws.amazon.com/bedrock/latest/userguide/models-supported.html
+  const modelId = process.env.MODEL_ID;
+
   // Step 3: Create the message
   // The message includes the text prompt and specifies that it comes from the user
   const inputText = `
